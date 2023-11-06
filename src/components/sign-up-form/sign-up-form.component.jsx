@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import FormInput from '../form-input/form-input.component';
 
@@ -39,10 +40,11 @@ const SignUpForm = () => {
         password
       );
       await createUserDocumentFromAuth(user, { displayName });
+
       resetFormFields();
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
-        alert('Cannot crate User, email already in use');
+        toast.error('Cannot crate User, email already in use');
       } else {
         console.log('user creation encountered an error', error);
       }

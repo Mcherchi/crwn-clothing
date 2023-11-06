@@ -1,15 +1,15 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import FormInput from '../form-input/form-input.component';
+import Button from '../button/button.component';
 
 import {
-  createUserDocumentFromAuth,
   signInWithGooglePopup,
   signInAuthUserWithEmailAndPassword,
 } from '../../utils/firebase/firebase.utils';
 
 import './sign-in-form.styles.scss';
-import Button from '../button/button.component';
 
 const defaultFormFields = {
   email: '',
@@ -28,16 +28,12 @@ const SignInForm = () => {
     e.preventDefault();
 
     try {
-      const response = await signInAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
+      await signInAuthUserWithEmailAndPassword(email, password);
 
-      console.log(response);
       resetFormFields();
     } catch (error) {
       if (error.code === 'auth/invalid-login-credentials')
-        alert('Invalid credentials');
+        toast.error('Invalid credentials');
     }
   };
 
@@ -48,8 +44,11 @@ const SignInForm = () => {
   };
 
   const signInWithGoogle = async () => {
-    const { user } = await signInWithGooglePopup();
-    await createUserDocumentFromAuth(user);
+    try {
+      await signInWithGooglePopup();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
