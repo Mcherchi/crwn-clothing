@@ -4,9 +4,9 @@ import { CartContext } from '../../context/cart.context';
 
 const CartItem = ({ cartItem }) => {
   const { name, quantity, imageUrl, price } = cartItem;
-  const { removeItemToCart } = useContext(CartContext);
+  const { clearItemFromCart } = useContext(CartContext);
 
-  const removeProductToCart = () => removeItemToCart(cartItem);
+  const clearItemHandler = () => clearItemFromCart(cartItem);
 
   return (
     <div className="cart-item-container">
@@ -16,8 +16,8 @@ const CartItem = ({ cartItem }) => {
         <span className="price">
           {quantity} x ${price}
         </span>
-        <span className="remove-button" onClick={removeProductToCart}>
-          X
+        <span className="remove-button" onClick={clearItemHandler}>
+          &#10005;
         </span>
       </div>
     </div>
